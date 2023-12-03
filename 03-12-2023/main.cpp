@@ -6,28 +6,27 @@
 #include <string>
 #include <fstream>
 
-unsigned int first_digit(const std::string str)
+int first_digit(const std::string &str)
 {
     size_t inx = str.find_first_of("0123456789");
-    int digi = (str.at(inx) - '0');;
     return (str.at(inx) - '0');
 }
 
-unsigned int last_digit(const std::string srt)
+int last_digit(const std::string &str)
 {
-    unsigned int digit = 0;
-    return digit;
+    size_t inx = str.find_last_of("0123456789");
+    return (str.at(inx) - '0');
 }
 
-unsigned int combain_digits(const std::string str)
+int combain_digits(const std::string &str)
 {
-    return first_digit(str) + last_digit(str);
+    return ((first_digit(str)*10) + last_digit(str));
 }
 
 int main()
 {
     std::string line;
-    std::ifstream inputf("input");
+    std::ifstream inputf("../input");
     int sum = 0;
     if (!inputf.is_open())
         std::cout << "failed to open " << "input" << '\n';
