@@ -1,5 +1,5 @@
 //
-// Created by izik on 3/12/23.
+// Created by izik on 3/12/23
 //
 #include <iostream>
 #include <sstream>
