@@ -2,10 +2,18 @@
 // Created by izik on 12/4/23.
 //
 #include <iostream>
+#include <string>
+#include <vector>
 
+using namespace std;
+
+bool is_game_possible(const vector<string> &game)
+{
+
+}
 
 int main()
 {
-    std::cout << "hi" <<std::endl;
+    cout << "hi" <<endl;
     return 0;
 }
