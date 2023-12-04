@@ -62,6 +62,7 @@ bool is_game_possible(const vector<string> &game)
     int end_pos = 0;
     for (auto &i : game)
     {
+        start_pos = 0;
         while (string::npos != start_pos)
         {
             end_pos=i.find(' ', start_pos+1);
@@ -95,23 +96,30 @@ bool is_game_possible(const vector<string> &game)
     return true;
 }
 
-int count_possible_games(const vector<string> &data)
+int get_game_id(const string &line)
 {
-    int count = 0;
+    int end_pos = line.find_first_of(":");
+    int start_pos = line.find_first_of(" ");
+    return stoi(line.substr(start_pos, end_pos-start_pos));
+}
+
+int sum_possible_games(const vector<string> &data)
+{
+    int sum = 0;
     for (auto &i : data)
     {
         vector<string> game =break_game_by_repetition(i);
         if (is_game_possible(game))
         {
-            ++count;
+            sum += get_game_id(i);
         }
     }
-    return count;
+    return sum;
 }
 
 int main()
 {
     vector<string> data =read_lines("../input");
-    cout << count_possible_games(data) << endl;
+    cout << sum_possible_games(data) << endl;
     return 0;
 }
