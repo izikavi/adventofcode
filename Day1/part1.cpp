@@ -1,6 +1,6 @@
 //
 // Created by izik on 3/12/23
-//
+// This code writen to solve AoC2023 day 1 - part 1
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -32,10 +32,10 @@ int get_number(const std::string &str)
     return ((first_digi*10) + last_digi);
 }
 
-int sum_of_data(std::vector<std::string> data)
+int sum_of_data(const std::vector<std::string> &data)
 {
     int sum = 0;
-    for (auto i: data)
+    for (auto &i: data)
     {
         sum += get_number(i);
     }
