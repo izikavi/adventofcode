@@ -43,8 +43,8 @@ vector<string> break_game_by_repetition(const string &line)
 {
     vector<string> game;
     int start_pos = 0; line.find_first_of(":")+2;
-    int end_pos =  line.find_first_of(":")+1;;//line.find_first_of(";");
-    string repetition;// = line.substr(start_pos, end_pos - start_pos);
+    int end_pos =  line.find_first_of(":")+1;
+    string repetition;
     while (end_pos != string::npos)
     {
         start_pos = end_pos+1;
@@ -69,27 +69,24 @@ bool is_game_possible(const vector<string> &game)
             int cubes=stoi(i.substr(start_pos, end_pos - start_pos));
             char color_char=i.at(end_pos + 1);
             start_pos = i.find(" ", end_pos+1);
-            int color_id=-1;
+
             switch (color_char)
             {
                 case 'b':
                     if (cubes > NUM_OF_BLUE)
                     {
-                        cout << "False" << endl;
                         return false;
                     }
                     break;
                 case 'r':
                     if (cubes > NUM_OF_RED)
                     {
-                        cout << "False" << endl;
                         return false;
                     }
                     break;
                 case 'g':
                     if (cubes > NUM_OF_GREEN)
                     {
-                        cout << "False" << endl;
                         return false;
                     }
                     break;
@@ -98,7 +95,6 @@ bool is_game_possible(const vector<string> &game)
             }
         }
     }
-    cout << "True" << endl;
     return true;
 }
 
