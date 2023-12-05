@@ -73,22 +73,28 @@ bool is_game_possible(const vector<string> &game)
             switch (color_char)
             {
                 case 'b':
-                    color_id=cube_color::BLUE;
+                    if (cubes > NUM_OF_BLUE)
+                    {
+                        cout << "False" << endl;
+                        return false;
+                    }
                     break;
                 case 'r':
-                    color_id=cube_color::RED;
+                    if (cubes > NUM_OF_RED)
+                    {
+                        cout << "False" << endl;
+                        return false;
+                    }
                     break;
                 case 'g':
-                    color_id=cube_color::GREEN;
+                    if (cubes > NUM_OF_GREEN)
+                    {
+                        cout << "False" << endl;
+                        return false;
+                    }
                     break;
                 default:
                     return false;
-            }
-            base_line[color_id]-=cubes;
-            if (0 > base_line[color_id])
-            {
-                cout << "False" << endl;
-                return false;
             }
         }
     }
