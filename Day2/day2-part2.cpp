@@ -1,10 +1,11 @@
 //
-// Created by izik on 12/4/23.
+// Created by izik on 12/5/23.
 //
 #include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
+#include <climits>
 
 using namespace std;
 
@@ -15,10 +16,6 @@ enum cube_color
     GREEN,
     NUM_OF_COLORS
 };
-
-const int NUM_OF_BLUE = 14;
-const int NUM_OF_RED = 12;
-const int NUM_OF_GREEN = 13;
 
 vector<string> read_lines(const string &file_name)
 {
@@ -55,9 +52,11 @@ vector<string> break_game_by_repetition(const string &line)
     return game;
 }
 
-bool is_game_possible(const vector<string> &game)
+void get_min_cube_per_color(const vector<string> &game,
+                           int *blue_cubes, int *red_cubes, int *green_cubes)
 {
-    vector<int> base_line {NUM_OF_BLUE, NUM_OF_RED, NUM_OF_GREEN};
+    // reset cubes values
+    vector<int> base_line {0,0,0};
     int start_pos = 0;
     int end_pos = 0;
     for (auto &i : game)
@@ -73,52 +72,39 @@ bool is_game_possible(const vector<string> &game)
             switch (color_char)
             {
                 case 'b':
-                    if (cubes > NUM_OF_BLUE)
-                    {
-                        cout << "False" << endl;
-                        return false;
-                    }
+                    color_id = cube_color::BLUE;
                     break;
                 case 'r':
-                    if (cubes > NUM_OF_RED)
-                    {
-                        cout << "False" << endl;
-                        return false;
-                    }
+                    color_id = cube_color::RED;
                     break;
                 case 'g':
-                    if (cubes > NUM_OF_GREEN)
-                    {
-                        cout << "False" << endl;
-                        return false;
-                    }
+                    color_id = cube_color::GREEN;
                     break;
                 default:
-                    return false;
+                    return;
+            }
+            if (cubes > base_line[color_id])
+            {
+                base_line[color_id] = cubes;
             }
         }
     }
-    cout << "True" << endl;
-    return true;
+    *blue_cubes = base_line[cube_color::BLUE];
+    *red_cubes = base_line[cube_color::RED];
+    *green_cubes = base_line[cube_color::GREEN];
 }
 
-int get_game_id(const string &line)
-{
-    int end_pos = line.find_first_of(":");
-    int start_pos = line.find_first_of(" ");
-    return stoi(line.substr(start_pos, end_pos-start_pos));
-}
-
-int sum_possible_games(const vector<string> &data)
+int sum_min_cubes_power(const vector<string> &data)
 {
     int sum = 0;
     for (auto &i : data)
     {
         vector<string> game = break_game_by_repetition(i);
-        if (is_game_possible(game))
-        {
-            sum += get_game_id(i);
-        }
+        int blue_cubes = 0;
+        int red_cubes = 0;
+        int green_cubes = 0;
+        get_min_cube_per_color(game, &blue_cubes, &red_cubes, &green_cubes);
+        sum += (blue_cubes * red_cubes * green_cubes);
     }
     return sum;
 }
@@ -126,6 +112,6 @@ int sum_possible_games(const vector<string> &data)
 int main()
 {
     vector<string> data =read_lines("../input");
-    cout << sum_possible_games(data) << endl;
+    cout << sum_min_cubes_power(data) << endl;
     return 0;
 }
