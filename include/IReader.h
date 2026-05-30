@@ -13,7 +13,7 @@ class IReader {
     virtual ~IReader() = default;
 
     virtual void setInput(const std::string& input_path) = 0;
-    virtual std::vector<std::string> getInput() = 0;
+    [[nodiscard]] virtual std::vector<std::string> readInput() const = 0;
 };
 
 } // namespace Read

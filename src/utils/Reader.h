@@ -13,7 +13,7 @@ public:
     ~Reader() override = default;
 
     void setInput(const std::string& input_path) override;
-    std::vector<std::string> getInput() override;
+    std::vector<std::string> readInput() const override;
 
 private:
     void updateInput();

@@ -13,7 +13,7 @@ void Reader::setInput(const std::string &input_path) {
     updateInput();
 }
 
-std::vector<std::string> Reader::getInput() {
+std::vector<std::string> Reader::readInput() const {
     return m_lines;
 }
 

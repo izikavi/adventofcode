@@ -1,1 +1,5 @@
 *cmake-build-*
+*.xml
+*.iml
+*.md
+!README.md

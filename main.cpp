@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include "ISolver.h"
-#include "SolverRegistry.h"
+
+#include "src/SystemManager.h"
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
@@ -10,6 +10,11 @@ int main(int argc, char* argv[]) {
     }
 
     const std::string day = argv[1];
+
+    AOC::SystemManager &systemManager = AOC::SystemManager::getSystemManager();
+
+    systemManager.init(5);
+    systemManager.Solve()
 
     return 0;
 }
