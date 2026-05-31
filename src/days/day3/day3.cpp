@@ -1,40 +1,59 @@
+//
+// Created by izik on 30/05/2026.
+//
+
 #include "day3.h"
-#include "SolverRegistry.h"
-#include <fstream>
+
 #include <iostream>
-#include <vector>
+#include <ostream>
 #include <string>
 
-namespace {
+#include "IReader.h"
 
-std::vector<std::string> read_lines(const std::string& path) {
-    std::ifstream f(path);
-    std::vector<std::string> lines;
-    for (std::string line; std::getline(f, line);)
-        lines.push_back(line);
-    return lines;
+
+namespace Solver {
+
+Day3Solver::Day3Solver(std::shared_ptr<Utils::IReader> readerPtr) : ISolver(readerPtr), m_position(50) {
 }
 
-void solve_part1(const std::string& input_path) {
-    auto data = read_lines(input_path);
-    // TODO: implement
-    (void)data;
+void Day3Solver::solve(uint8_t part) {
+    std::shared_ptr<Utils::IReader> reader = m_readerWeakPtr.lock();
+    if (!reader) {
+        std::cerr << "Error when creating reader." << std::endl;
+        return;
+    }
+
+    reader->setInput("../../../inputs/day3");
+    m_data = reader->readInput();
+
+    switch (part) {
+        case 0:
+            part1();
+            part2();
+            break;
+        case 1:
+            part1();
+            break;
+        case 2:
+            part2();
+            break;
+        default:
+            std::cerr << "Part " << part << " not found" << std::endl;
+            break;
+    }
 }
 
-void solve_part2(const std::string& input_path) {
-    auto data = read_lines(input_path);
-    // TODO: implement
-    (void)data;
+void Day3Solver::part1() {
+    for (const auto& line : m_data) {
+
+    }
+}
+
+void Day3Solver::part2() {
+    for (const auto& line : m_data) {
+
+    }
 }
 
 } // namespace
 
-void Day3Solver::part(int n, const std::string& input_path) {
-    if (n == 1) solve_part1(input_path);
-    else if (n == 2) solve_part2(input_path);
-}
-
-[[maybe_unused]] static bool _reg = [] {
-    SolverRegistry::add("day3", [] { return static_cast<ISolver*>(new Day3Solver()); });
-    return true;
-}();

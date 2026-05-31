@@ -20,7 +20,7 @@ void SystemManager::init(uint8_t maxDay) {
     m_readerPtr = m_factoryPtr->createReader();
 
     for (int i = 0; i < maxDay; i++) {
-        m_daySolversPtr.emplace_back(m_factoryPtr->createSolver(i, m_readerPtr));
+        m_daySolversPtr.emplace_back(m_factoryPtr->createSolver(i+1, m_readerPtr));
     }
 
     m_init = true;

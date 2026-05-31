@@ -4,7 +4,8 @@ project(adventofcode)
 set(CMAKE_CXX_STANDARD 17)
 
 add_library(utils_lib INTERFACE
-        include/IReader.h)
+        include/IReader.h
+        include/IFactory.h)
 target_include_directories(utils_lib INTERFACE
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/utils
@@ -38,4 +39,5 @@ target_include_directories(aoc PRIVATE
 )
 
 target_link_libraries(aoc PRIVATE utils_lib)
-target_compile_options(aoc PRIVATE -Wall -Wextra -Wpedantic -Werror)
+target_compile_definitions(aoc PRIVATE EXTRA_DEBUG)
+#target_compile_options(aoc PRIVATE -Wall -Wextra -Wpedantic -Werror)

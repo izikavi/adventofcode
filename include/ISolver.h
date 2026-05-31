@@ -6,7 +6,6 @@
 
 #include <cstdint>
 #include <memory>
-#include <string>
 
 namespace Utils {
 class IReader;
@@ -28,13 +27,13 @@ protected:
     std::weak_ptr<Utils::IReader> m_readerWeakPtr;
 };
 
-class Stub : public ISolver {
+class ISolver::Stub : public ISolver {
 public:
     explicit Stub(const std::shared_ptr<Utils::IReader> &readerPtr);
     ~Stub() override = default;
 
     void solve(uint8_t part) override;
-    uint8_t numParts() const override;
+    [[nodiscard]] uint8_t numParts() const override;
 };
 
 }

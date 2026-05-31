@@ -5,6 +5,7 @@
 #include "Reader.h"
 
 #include <fstream>
+#include <iostream>
 
 namespace Utils {
 
@@ -19,6 +20,9 @@ std::vector<std::string> Reader::readInput() const {
 
 void Reader::updateInput() {
     std::ifstream f(m_filePath);
+    if (!f.good()) {
+        std::cerr << "Error when reading input file " << m_filePath << std::endl;
+    }
     for (std::string line; std::getline(f, line);) {
         m_lines.push_back(line);
     }

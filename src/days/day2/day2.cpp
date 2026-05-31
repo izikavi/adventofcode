@@ -1,97 +1,59 @@
+//
+// Created by izik on 30/05/2026.
+//
+
 #include "day2.h"
-#include "SolverRegistry.h"
-#include <fstream>
+
 #include <iostream>
-#include <vector>
+#include <ostream>
 #include <string>
 
-namespace {
+#include "IReader.h"
 
-std::vector<std::string> read_lines(const std::string& path) {
-    std::ifstream f(path);
-    std::vector<std::string> lines;
-    for (std::string line; std::getline(f, line);)
-        lines.push_back(line);
-    return lines;
+
+namespace Solver {
+
+Day2Solver::Day2Solver(std::shared_ptr<Utils::IReader> readerPtr) : ISolver(readerPtr), m_position(50) {
 }
 
-enum CubeColor { BLUE = 0, RED = 1, GREEN = 2 };
-
-const int MAX_BLUE  = 14;
-const int MAX_RED   = 12;
-const int MAX_GREEN = 13;
-
-std::vector<std::string> break_into_rounds(const std::string& line) {
-    std::vector<std::string> rounds;
-    size_t start = line.find(':') + 1;
-    while (start != std::string::npos) {
-        size_t end = line.find(';', start);
-        rounds.push_back(line.substr(start, end - start));
-        start = (end == std::string::npos) ? end : end + 1;
+void Day2Solver::solve(uint8_t part) {
+    std::shared_ptr<Utils::IReader> reader = m_readerWeakPtr.lock();
+    if (!reader) {
+        std::cerr << "Error when creating reader." << std::endl;
+        return;
     }
-    return rounds;
-}
 
-std::vector<int> max_cubes(const std::vector<std::string>& rounds) {
-    std::vector<int> maxima = {0, 0, 0};
-    for (const auto& round : rounds) {
-        size_t pos = 0;
-        while (pos < round.size()) {
-            size_t num_end = round.find(' ', pos + 1);
-            if (num_end == std::string::npos) break;
-            int count = std::stoi(round.substr(pos, num_end - pos));
-            char color_first = round.at(num_end + 1);
-            pos = round.find(' ', num_end + 1);
+    reader->setInput("../../../inputs/day2");
+    m_data = reader->readInput();
 
-            int idx = -1;
-            if      (color_first == 'b') idx = BLUE;
-            else if (color_first == 'r') idx = RED;
-            else if (color_first == 'g') idx = GREEN;
-
-            if (idx >= 0 && count > maxima[idx])
-                maxima[idx] = count;
-        }
+    switch (part) {
+        case 0:
+            part1();
+            part2();
+            break;
+        case 1:
+            part1();
+            break;
+        case 2:
+            part2();
+            break;
+        default:
+            std::cerr << "Part " << part << " not found" << std::endl;
+            break;
     }
-    return maxima;
 }
 
-int get_game_id(const std::string& line) {
-    size_t colon = line.find(':');
-    size_t space = line.find(' ');
-    return std::stoi(line.substr(space + 1, colon - space - 1));
-}
+void Day2Solver::part1() {
+    for (const auto& line : m_data) {
 
-void solve_part1(const std::string& input_path) {
-    auto data = read_lines(input_path);
-    int sum = 0;
-    for (const auto& line : data) {
-        auto rounds = break_into_rounds(line);
-        auto maxima = max_cubes(rounds);
-        if (maxima[BLUE] <= MAX_BLUE && maxima[RED] <= MAX_RED && maxima[GREEN] <= MAX_GREEN)
-            sum += get_game_id(line);
     }
-    std::cout << sum << '\n';
 }
 
-void solve_part2(const std::string& input_path) {
-    auto data = read_lines(input_path);
-    int sum = 0;
-    for (const auto& line : data) {
-        auto rounds = break_into_rounds(line);
-        auto maxima = max_cubes(rounds);
-        sum += maxima[BLUE] * maxima[RED] * maxima[GREEN];
+void Day2Solver::part2() {
+    for (const auto& line : m_data) {
+
     }
-    std::cout << sum << '\n';
 }
 
 } // namespace
 
-void Day2Solver::part(int n, const std::string& input_path) {
-    if (n == 1) solve_part1(input_path);
-    else if (n == 2) solve_part2(input_path);
-}
-
-[[maybe_unused]] static bool _reg = [] {
-    SolverRegistry::add("day2", [] { return static_cast<ISolver*>(new Day2Solver()); });
-    return true;
-}();
