@@ -13,7 +13,7 @@
 
 namespace Solver {
 
-Day1Solver::Day1Solver(const std::shared_ptr<Utils::IReader> &readerPtr) : ISolver(readerPtr), m_position(50) {
+Day1Solver::Day1Solver(const std::shared_ptr<Utils::IReader> &readerPtr) : ISolver(readerPtr) {
 }
 
 void Day1Solver::solve(uint8_t part) {
@@ -46,7 +46,7 @@ void Day1Solver::solve(uint8_t part) {
 
 void Day1Solver::setInput(const std::vector<std::string> &input) {
     for (const auto& line : input) {
-        int64_t number = std::stoi(line.substr(1));
+        int32_t number = std::stoi(line.substr(1));
         if ('L' == line[0]) {
             number *= (-1);
         }
@@ -56,15 +56,16 @@ void Day1Solver::setInput(const std::vector<std::string> &input) {
 
 void Day1Solver::part1() {
     uint32_t onZero = 0;
+    int32_t position = 50;
     for (const auto& [direction, steps] : m_data) {
 #ifdef EXTRA_DEBUG
-        std::cout << "pos:" << m_position << " direction: " << direction << ": " << steps << " counter: " << onZero << std::endl;
+        std::cout << "pos:" << position << " direction: " << direction << ": " << steps << " counter: " << onZero << std::endl;
 #endif
 
-        m_position += steps;
-        m_position = (m_position + 100) % 100;
+        position += steps;
+        position = (position + 100) % 100;
 
-        if (m_position == 0) {
+        if (position == 0) {
             ++onZero;
         }
     }
@@ -74,25 +75,40 @@ void Day1Solver::part1() {
     std::cout << "---------------------------------------------------\n";
 }
 
+int32_t Day1Solver::floorDiv(int32_t a, int32_t b) {
+    int32_t q = a / b;
+    if (a % b != 0 && a < 0) {
+        --q;
+    }
+
+    return q;
+}
+int32_t Day1Solver::ceilDiv(int32_t a, int32_t b) {
+    int32_t q = a / b;
+    if (a % b != 0 && a > 0) {
+        ++q;
+    }
+
+    return q;
+}
+
 void Day1Solver::part2() {
-    uint32_t passZero = 0;
+    int32_t oldPosition = 50;
+    int32_t count = 0;
 
     for (const auto& [direction, steps] : m_data) {
-#ifdef EXTRA_DEBUG
-        std::cout << "pos:" << m_position << " direction: " << direction << ": " << steps << " counter: " << passZero << std::endl;
-#endif
-        int64_t new_pos = m_position + steps;
-        passZero += abs(new_pos / 100);
-        new_pos %= 100;
-        if (new_pos <= 0) {
-            ++passZero;
+        int32_t nextPosition = oldPosition + steps;
+        if (direction == 'R') {
+            count += floorDiv(nextPosition, 100) - floorDiv(oldPosition, 100);
         }
-
-        m_position = (new_pos + 100) % 100;
+        else if (direction == 'L') {
+            count += ceilDiv(oldPosition, 100)  - ceilDiv(nextPosition, 100);
+        }
+        oldPosition = nextPosition;
     }
 
     std::cout << "---------------------------------------------------\n";
-    std::cout << "Day 1 Part 2: " << passZero << std::endl;
+    std::cout << "Day 1 Part 2: " << count << std::endl;
     std::cout << "---------------------------------------------------\n";
 }
 

@@ -21,12 +21,14 @@ public:
     [[nodiscard]] uint8_t numParts() const override { return 2; }
 
 private:
+    static int32_t ceilDiv(int32_t a, int32_t b);
+    static int32_t floorDiv(int32_t a, int32_t b);
+
     void setInput(const std::vector<std::string>& input);
     void part1();
     void part2();
 
-    int64_t m_position;
-    std::vector<std::pair<char, int64_t>> m_data;
+    std::vector<std::pair<char, int32_t>> m_data;
 };
 
 } // namespace Solver
