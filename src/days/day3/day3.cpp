@@ -23,7 +23,7 @@ void Day3Solver::solve(uint8_t part) {
         return;
     }
 
-    reader->setInput("../../../inputs/day3");
+    reader->setInput("../../../inputs/day3", '\n');
     m_data = reader->readInput();
 
     switch (part) {

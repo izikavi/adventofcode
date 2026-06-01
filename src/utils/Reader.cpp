@@ -9,16 +9,22 @@
 
 namespace Utils {
 
-void Reader::setInput(const std::string &input_path) {
+void Reader::setInput(const std::string &input_path, char delimiter) {
     m_filePath = input_path;
-    updateInput();
+    if (delimiter == '\n') {
+        readLines();
+    }
+    else {
+        readDelimiter(delimiter);
+    }
+
 }
 
 std::vector<std::string> Reader::readInput() const {
     return m_lines;
 }
 
-void Reader::updateInput() {
+void Reader::readLines() {
     std::ifstream f(m_filePath);
     if (!f.good()) {
         std::cerr << "Error when reading input file " << m_filePath << std::endl;
@@ -26,6 +32,9 @@ void Reader::updateInput() {
     for (std::string line; std::getline(f, line);) {
         m_lines.push_back(line);
     }
+}
+
+void Reader::readDelimiter(char delimiter) {
 }
 
 } // Read

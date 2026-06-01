@@ -23,7 +23,7 @@ void Day2Solver::solve(uint8_t part) {
         return;
     }
 
-    reader->setInput("../../../inputs/day2");
+    reader->setInput("../inputs/day2", ',');
     m_data = reader->readInput();
 
     switch (part) {
@@ -52,6 +52,14 @@ void Day2Solver::part1() {
 void Day2Solver::part2() {
     for (const auto& line : m_data) {
 
+    }
+}
+
+void Day2Solver::updateInput(std::vector<std::string> input) {
+    for (const auto& line : input) {
+        uint32_t pos = line.find('-');
+        int32_t sara
+        m_data.emplace();
     }
 }
 

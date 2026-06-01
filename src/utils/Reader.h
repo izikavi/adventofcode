@@ -12,11 +12,13 @@ public:
     Reader() = default;
     ~Reader() override = default;
 
-    void setInput(const std::string& input_path) override;
-    std::vector<std::string> readInput() const override;
+    void setInput(const std::string& input_path, char delimiter) override;
+    [[nodiscard]] std::vector<std::string> readInput() const override;
 
 private:
-    void updateInput();
+    void readLines();
+    void readDelimiter(char delimiter);
+
     std::string m_filePath;
     std::vector<std::string> m_lines;
 };

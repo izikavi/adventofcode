@@ -23,7 +23,7 @@ void Day1Solver::solve(uint8_t part) {
         return;
     }
 
-    reader->setInput("../inputs/day1");
+    reader->setInput("../inputs/day1", '\n');
     auto data = reader->readInput();
     setInput(data);
 

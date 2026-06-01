@@ -24,8 +24,9 @@ private:
     void part1();
     void part2();
 
-    int8_t m_position;
-    std::vector<std::string> m_data;
+    void updateInput(std::vector<std::string> input);
+
+    std::vector<std::pair<std::string, std::string> > m_data;
 };
 
 }
