@@ -35,6 +35,14 @@ void Reader::readLines() {
 }
 
 void Reader::readDelimiter(char delimiter) {
+    std::ifstream f(m_filePath);
+    if (!f.good()) {
+        std::cerr << "Error when reading input file " << m_filePath << std::endl;
+    }
+    std::string line;
+    while (std::getline(f, line, delimiter)) {
+        m_lines.push_back(line);
+    }
 }
 
 } // Read
