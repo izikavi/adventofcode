@@ -5,7 +5,6 @@
 #include "day3.h"
 
 #include <iostream>
-#include <ostream>
 #include <string>
 
 #include "IReader.h"
@@ -13,7 +12,7 @@
 
 namespace Solver {
 
-Day3Solver::Day3Solver(std::shared_ptr<Utils::IReader> readerPtr) : ISolver(readerPtr), m_position(50) {
+Day3Solver::Day3Solver(std::shared_ptr<Utils::IReader> readerPtr) : ISolver(readerPtr) {
 }
 
 void Day3Solver::solve(uint8_t part) {
