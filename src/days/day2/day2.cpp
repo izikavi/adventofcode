@@ -44,7 +44,7 @@ void Day2Solver::solve(uint8_t part) {
     }
 }
 
-void Day2Solver::part1() {
+void Day2Solver::part1() const {
     uint64_t sum = 0;
     for (const auto& [low, high] : m_data) {
         for (uint64_t i = low; i <= high; i++) {
@@ -55,7 +55,7 @@ void Day2Solver::part1() {
     std::cout << "Day 2 part1: " << sum << std::endl;
 }
 
-void Day2Solver::part2() {
+void Day2Solver::part2() const {
     uint64_t sum = 0;
     for (const auto& [low, high] : m_data) {
         for (uint64_t i = low; i <= high; i++) {

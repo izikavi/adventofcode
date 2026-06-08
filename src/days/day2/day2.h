@@ -21,8 +21,8 @@ public:
     [[nodiscard]] uint8_t numParts() const override { return 2; }
 
 private:
-    void part1();
-    void part2();
+    void part1() const;
+    void part2() const;
 
     void updateInput(const std::vector<std::string>& input);
     static bool isInvalid(uint64_t n, bool exactlyTwice);
