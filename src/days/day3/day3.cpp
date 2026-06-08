@@ -55,41 +55,64 @@ void Day3Solver::updateInput(const std::vector<std::string> &input) {
 }
 
 void Day3Solver::part1() const {
+    constexpr uint8_t NUM_OF_DIGITS = 2;
     uint64_t sum = 0;
     uint32_t lineNum = 0;
     for (const auto& line : m_data) {
-        uint8_t high = 0;
-        uint8_t highIndx = 0;
-        uint8_t low = 0;
+        uint64_t bankJolt = highestJolt(line, NUM_OF_DIGITS);
+#ifdef EXTRA_DEBUG
+        std::cout << "Line: " << ++lineNum << " maxV: " << bankJolt << std::endl;
+#endif
 
-        for (int i = 0; i < (line.size() - 1) && high < '9'; i++) {
-            uint8_t digit = line[i] - '0';
-            if (digit > high) {
-                high = digit;
-                highIndx = i;
-            }
-        }
-        for (int i = highIndx + 1; i < line.size() && low < '9'; i++) {
-            uint8_t digit = line[i] - '0';
-            if (digit > low) {
-                low = digit;
-            }
-        }
-        uint64_t bb = (high * 10 + low);
-        std::cout << "Line: " << ++lineNum << " maxV: " << bb << std::endl;
-        sum += bb;
+        sum += bankJolt;
     }
 
     std::cout << "Day3 Part1: " << sum << std::endl;
 }
 
 void Day3Solver::part2() const {
+    constexpr uint8_t NUM_OF_DIGITS = 12;
     uint64_t sum = 0;
+    uint32_t lineNum = 0;
     for (const auto& line : m_data) {
-
+        uint64_t bankJolt = highestJolt(line, NUM_OF_DIGITS);
+#ifdef EXTRA_DEBUG
+        std::cout << "Line: " << ++lineNum << " maxV: " << bankJolt << std::endl;
+#endif
+        sum += bankJolt;
     }
+
     std::cout << "Day3 Part2: " << sum << std::endl;
 }
+
+int8_t Day3Solver::highestDigit(const std::vector<uint8_t> &input, int8_t startIndx, int8_t endIndx) {
+    constexpr uint8_t MAX_DIGITS = ('9' - '0');
+    uint8_t high = 0;
+    int8_t indx = 0;
+    for (int8_t i = startIndx; i < endIndx && high < MAX_DIGITS; i++) {
+        uint8_t digit = input[i] - '0';
+        if (digit > high) {
+            high = digit;
+            indx = i;
+        }
+    }
+
+    return indx;
+}
+
+uint64_t Day3Solver::highestJolt(const std::vector<uint8_t> &input, uint8_t numOfDigits) {
+    uint64_t bankJolt = 0;
+    uint8_t digit = 0;
+    int8_t indx = -1;
+    for (uint8_t i = 0; i < numOfDigits; ++i) {
+        indx = highestDigit(input, indx + 1, input.size() - (numOfDigits - i - 1));
+        digit = input[indx] - '0';
+        bankJolt = (bankJolt * 10) + digit;
+    }
+
+    return bankJolt;
+}
+
 
 } // namespace
 

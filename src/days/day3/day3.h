@@ -25,6 +25,9 @@ private:
     void part1() const;
     void part2() const;
 
+    static int8_t highestDigit(const std::vector<uint8_t>& input, int8_t startIndx, int8_t endIndx);
+    static uint64_t highestJolt(const std::vector<uint8_t>& input, uint8_t numOfDigits);
+
     int8_t m_position;
     std::vector<std::vector<uint8_t> > m_data;
 };
