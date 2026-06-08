@@ -21,11 +21,12 @@ public:
     [[nodiscard]] uint8_t numParts() const override { return 2; }
 
 private:
-    void part1();
-    void part2();
+    void updateInput(const std::vector<std::string>& input);
+    void part1() const;
+    void part2() const;
 
     int8_t m_position;
-    std::vector<std::string> m_data;
+    std::vector<std::vector<uint8_t> > m_data;
 };
 
 }
