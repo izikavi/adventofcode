@@ -65,13 +65,31 @@ void Day4Solver::part1() {
     std::cout << "Day4 Part1: " << countReachable << std::endl;
 }
 
-void Day4Solver::part2() const {
-    for ([[maybe_unused]]const auto& line : m_data) {
-#ifdef EXTRA_DEBUG
-#endif
-    }
+void Day4Solver::part2() {
+    m_maxOfRoll = 4;
+    uint64_t countReachable = 0;
+    std::vector<std::pair<uint64_t, uint64_t>> reach{{0,0}};
+    while (!reach.empty()) {
+        reach.clear();
+        for (uint64_t i = 0; i < m_data.size(); ++i) {
+            for (uint64_t j = 0; j < m_data[i].size(); ++j) {
+                if (isReachable(i, j)) {
+                    ++countReachable;
+                    reach.emplace_back(i,j);
+                }
+            }
+        }
 
-    std::cout << "Day4 Part2: " << 0 << std::endl;
+#ifdef EXTRA_DEBUG
+        static uint16_t lineNum = 1;
+        std::cout << "line: " << lineNum++ << " reachable: " << reach.size() << std::endl;
+#endif
+        for (const auto& [row, column] : reach) {
+            m_data[row][column] = '.';
+        }
+    };
+
+    std::cout << "Day4 Part2: " << countReachable << std::endl;
 }
 
 bool Day4Solver::isReachable(uint8_t row, uint8_t column) const {

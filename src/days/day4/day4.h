@@ -23,7 +23,7 @@ public:
 
 private:
     void part1();
-    void part2() const;
+    void part2();
 
     [[nodiscard]] bool isReachable(uint8_t row, uint8_t column) const;
     [[nodiscard]] bool isRollAt(int64_t row, int64_t column) const;
