@@ -3,3 +3,4 @@
 *.iml
 *.md
 !README.md
+*.idea*
