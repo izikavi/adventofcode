@@ -30,7 +30,7 @@ public:
     void operator=(const SystemManager&) = delete;
 
     void init(uint8_t maxDay);
-    void Solve(uint8_t day, uint8_t part = 0);
+    void Solve(uint8_t day, uint8_t part = 0) const;
 
 
 private:

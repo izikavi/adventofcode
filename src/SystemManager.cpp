@@ -26,7 +26,7 @@ void SystemManager::init(uint8_t maxDay) {
     m_init = true;
 }
 
-void SystemManager::Solve(uint8_t day, uint8_t part) {
+void SystemManager::Solve(uint8_t day, uint8_t part) const {
     if (!m_init) {
         std::cerr << "SystemManager::init() called" << std::endl;
         return;

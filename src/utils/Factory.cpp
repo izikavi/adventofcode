@@ -9,6 +9,7 @@
 #include "../days/day1/day1.h"
 #include "../days/day2/day2.h"
 #include "../days/day3/day3.h"
+#include "../days/day4/day4.h"
 
 
 namespace Utils {
@@ -28,9 +29,9 @@ std::shared_ptr<Solver::ISolver> Factory::createSolver(uint8_t day, std::shared_
         case 3:
             solverPtr = std::make_shared<Solver::Day3Solver>(readerPtr);
             break;
-        // case 4:
-        //     solverPtr = std::make_shared<Day4Solver>();
-        //     break;
+        case 4:
+            solverPtr = std::make_shared<Solver::Day4Solver>(readerPtr);
+            break;
         // case 5:
         //     solverPtr = std::make_shared<Day5Solver>();
         //     break;
