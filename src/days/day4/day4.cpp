@@ -2,10 +2,6 @@
 // Created by izik on 08/06/2026.
 //
 
-//
-// Created by izik on 30/05/2026.
-//
-
 #include "day4.h"
 
 #include <iostream>
