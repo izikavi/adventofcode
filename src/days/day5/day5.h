@@ -6,6 +6,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "ISolver.h"
 
@@ -20,18 +21,25 @@ public:
     void solve(uint8_t part) override;
     [[nodiscard]] uint8_t numParts() const override { return 2; }
 
-    struct range {
+    struct Range {
         uint64_t m_start;
         uint64_t m_end;
 
-        range(uint64_t start, uint64_t end) : m_start(start), m_end(end) {}
-        ~range() = default;
+        Range(uint64_t start, uint64_t end) : m_start(start), m_end(end) {}
+        ~Range() = default;
 
         [[nodiscard]] bool isInRange(uint64_t val) const {
             return val >= m_start && val <= m_end;
         };
 
-        bool operator<(const range& rhs) const {
+        [[nodiscard]] uint64_t count() const {
+#ifdef EXTRA_DEBUG
+            std::cout << "start: " << m_start << " end: " << m_end << std::endl;
+#endif
+            return (m_end - m_start + 1);
+        }
+
+        bool operator<(const Range& rhs) const {
             // if (m_start == rhs.m_start) {
             //     return m_end < rhs.m_end;
             // }
@@ -43,7 +51,7 @@ private:
     void part1() const;
     void part2() const;
 
-    std::vector<range> m_ranges;
+    std::vector<Range> m_ranges;
     std::vector<uint64_t> m_ids;
 };
 
