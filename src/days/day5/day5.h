@@ -24,7 +24,7 @@ public:
         uint64_t m_start;
         uint64_t m_end;
 
-        range(uint32_t start, uint32_t end) : m_start(start), m_end(end) {}
+        range(uint64_t start, uint64_t end) : m_start(start), m_end(end) {}
         ~range() = default;
 
         [[nodiscard]] bool isInRange(uint64_t val) const {

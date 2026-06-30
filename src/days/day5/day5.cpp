@@ -50,8 +50,8 @@ void Day5Solver::reorderData(std::vector<std::string> lines) {
     std::vector<range> raw_ranges;
     while (!line.empty()) {
         uint64_t pos = line.find('-');
-        uint32_t start = std::stoul(line.substr(0, pos));
-        uint32_t end = std::stoul(line.substr(pos+1));
+        uint64_t start = std::stoull(line.substr(0, pos));
+        uint64_t end = std::stoull(line.substr(pos+1));
         raw_ranges.emplace_back(start, end);
 
         it = lines.begin();
@@ -72,6 +72,9 @@ void Day5Solver::reorderData(std::vector<std::string> lines) {
             lastRange.m_start = newStart;
             lastRange.m_end = newEnd;
         }
+        else {
+            m_ranges.push_back(range);
+        }
     }
 
     char* endPtr = nullptr;
@@ -83,7 +86,6 @@ void Day5Solver::reorderData(std::vector<std::string> lines) {
 void Day5Solver::part1() const {
     uint64_t countFresh = 0;
     for (const auto id : m_ids) {
-        // upper_bound -> first range that starts after id; the candidate is the one before it.
         auto it = std::upper_bound(m_ranges.begin(), m_ranges.end(), id, [](uint64_t value, const Day5Solver::range& r) {
                 return value < r.m_start;
         });
