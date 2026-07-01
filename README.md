@@ -1,3 +1,4 @@
 # advent of code
-This repository was created to add the solotion for https://adventofcode.com
-The main language is C++17, but it may change.
+This repository was created to add solutions for https://adventofcode.com for 2025 tasks.
+It is just to practice C++ and write code without an IDE or AI (I used Claude Code to write the CMakeLists.txt file).
+The main language is C++17.
