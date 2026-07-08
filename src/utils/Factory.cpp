@@ -12,6 +12,12 @@
 #include "../days/day4/day4.h"
 #include "../days/day5/day5.h"
 #include "../days/day6/day6.h"
+#include "../days/day7/day7.h"
+//#include "../days/day8/day8.h"
+//#include "../days/day9/day9.h"
+//#include "../days/day10/day10.h"
+//#include "../days/day11/day11.h"
+//#include "../days/day12/day12.h"
 
 namespace Utils {
 std::shared_ptr<IReader> Factory::createReader() {
@@ -39,9 +45,9 @@ std::shared_ptr<Solver::ISolver> Factory::createSolver(uint8_t day, std::shared_
         case 6:
             solverPtr = std::make_shared<Solver::Day6Solver>(readerPtr);
             break;
-        // case 7:
-        //     solverPtr = std::make_shared<Solver::Day7Solver>(readerPtr);
-        //     break;
+        case 7:
+            solverPtr = std::make_shared<Solver::Day7Solver>(readerPtr);
+            break;
         // case 8:
         //     solverPtr = std::make_shared<Solver::Day8Solver>(readerPtr);
         //     break;

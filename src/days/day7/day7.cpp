@@ -7,6 +7,7 @@
 #include <iostream>
 #include <ostream>
 #include <string>
+#include <set>
 
 #include "IReader.h"
 
@@ -25,7 +26,7 @@ void Day7Solver::solve(uint8_t part) {
 
     reader->setInput("../inputs/day7", '\n');
     auto data = reader->readInput();
-    setInput(data);
+    orderData(data);
 
     switch (part) {
         case 0:
@@ -44,18 +45,63 @@ void Day7Solver::solve(uint8_t part) {
     }
 }
 
-void Day7Solver::reorderData(const std::vector<std::string> &input) {
+void Day7Solver::orderData(const std::vector<std::string> &input) {
+    m_startLine = input[0];
+    m_data = input;
+    m_data.erase(m_data.begin());
+    auto it = m_data.end();
+    --it;
+    while (it->empty()) {
+        it = m_data.erase(it);
+        --it;
+    }
+}
+
+void pp(const std::set<uint32_t>& s) {
+    std::cout << "[";
+    for (uint32_t i : s) {
+        if (i == *s.begin()) {
+            std::cout << "[";
+        }
+        std::cout << i << ", ";
+    }
+    std::cout << "]" << std::endl;
 }
 
 void Day7Solver::part1() {
-#ifdef EXTRA_DEBUG
-#endif
+    std::set<uint32_t> beamsPositions;
+    uint32_t startPos = m_startLine.find('S');
+    beamsPositions.insert(startPos);
+    uint16_t countSpliter = 0;
 
-    std::cout << "Day 7 Part 1: " << 0 << std::endl;
+    for (const auto& line : m_data) {
+        //int bi = 0;
+        std::set<uint32_t> nextLvlBeams;
+        for (uint32_t beamPos : beamsPositions) {
+            char space = line[beamPos];
+            if ('^' == space) {
+                ++countSpliter;
+                nextLvlBeams.insert(beamPos - 1);
+                nextLvlBeams.insert(beamPos + 1);
+            }
+            else if ('.' == space) {
+                nextLvlBeams.insert(beamPos);
+            }
+            else {
+                std::exit(1);
+            }
+       }
+#ifdef EXTRA_DEBUG
+            pp(beamsPositions);
+#endif
+        beamsPositions = nextLvlBeams;
+    }
+
+    std::cout << "Day 7 Part 1: " << countSpliter << std::endl;
 }
 
 void Day7Solver::part2() {
-    std::cout << "Day 7 Part 2: " << count << std::endl;
+    std::cout << "Day 7 Part 2: " << 0 << std::endl;
 }
 
 } // namespace

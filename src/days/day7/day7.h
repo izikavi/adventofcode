@@ -18,15 +18,15 @@ public:
     ~Day7Solver() override = default;
 
     void solve(uint8_t part) override;
-    [[nodiscard]] uint8_t numParts() const override { return 2; }
 
 private:
-    void reorderData(const std::vector<std::string>& input);
+    void orderData(const std::vector<std::string>& input);
 
     void part1();
     void part2();
 
-    std::vector<std::pair<char, int32_t>> m_data;
+    std::string m_startLine;
+    std::vector<std::string> m_data;
 };
 
 } // namespace Solver
