@@ -19,7 +19,6 @@ public:
     ~Day5Solver() override = default;
 
     void solve(uint8_t part) override;
-    [[nodiscard]] uint8_t numParts() const override { return 2; }
 
     struct Range {
         uint64_t m_start;

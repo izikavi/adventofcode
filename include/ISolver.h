@@ -21,7 +21,7 @@ public:
     virtual ~ISolver() = default;
 
     virtual void solve(uint8_t part) = 0;
-    [[nodiscard]] virtual uint8_t numParts() const = 0;
+    [[nodiscard]] virtual uint8_t numParts() const { return 2;};
 
 protected:
     std::weak_ptr<Utils::IReader> m_readerWeakPtr;

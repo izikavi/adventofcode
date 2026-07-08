@@ -18,7 +18,6 @@ public:
     ~Day1Solver() override = default;
 
     void solve(uint8_t part) override;
-    [[nodiscard]] uint8_t numParts() const override { return 2; }
 
 private:
     static int32_t ceilDiv(int32_t a, int32_t b);

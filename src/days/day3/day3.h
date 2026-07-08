@@ -18,7 +18,6 @@ public:
     ~Day3Solver() override = default;
 
     void solve(uint8_t part) override;
-    [[nodiscard]] uint8_t numParts() const override { return 2; }
 
 private:
     void updateInput(const std::vector<std::string>& input);
