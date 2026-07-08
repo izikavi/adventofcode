@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
 
     AOC::SystemManager &systemManager = AOC::SystemManager::getSystemManager();
 
-    systemManager.init(5);
+    systemManager.init(12);
     systemManager.Solve(day, part);
 
     return 0;

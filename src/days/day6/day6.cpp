@@ -1,22 +1,25 @@
 //
-// Created by izik on 08/06/2026.
+// Created by izik on 30/06/2026.
 //
 
-#include "day5.h"
+#include "day6.h"
 
-#include <algorithm>
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <algorithm>
+#include <cmath>
 
 #include "IReader.h"
+#include "IOperator.h"
 
 
 namespace Solver {
 
-Day5Solver::Day5Solver(const std::shared_ptr<Utils::IReader>& readerPtr) : ISolver(readerPtr) {
+Day6Solver::Day6Solver(const std::shared_ptr<Utils::IReader>& readerPtr) : ISolver(readerPtr) {
 }
 
-void Day5Solver::solve(uint8_t part) {
+void Day6Solver::solve(uint8_t part) {
     std::shared_ptr<Utils::IReader> reader = m_readerWeakPtr.lock();
     if (!reader) {
         std::cerr << "Error when creating reader." << std::endl;
@@ -44,74 +47,109 @@ void Day5Solver::solve(uint8_t part) {
     }
 }
 
-void Day5Solver::reorderData(std::vector<std::string> lines) {
-    auto it = lines.begin();
-    std::string line = *it;
-    std::vector<Range> raw_ranges;
-    while (!line.empty()) {
-        uint64_t pos = line.find('-');
-        uint64_t start = std::stoull(line.substr(0, pos));
-        uint64_t end = std::stoull(line.substr(pos+1));
-        raw_ranges.emplace_back(start, end);
+void Day6Solver::reorderData(std::vector<std::string> lines) {
+    int lastLine = lines.size() - 1;
+    for ( ; lastLine >=0 && lines[lastLine].empty(); --lastLine) {
+        lines.erase(lines.end() - 1);
+    }
+    createOperators(lines.back());
+    m_matrix.resize(m_operators.size());
+    m_cephMatrix.resize(m_operators.size());
 
-        it = lines.begin();
-        line = *it;
-        lines.erase(it);
+    uint64_t len = lines[0].length();
+    uint64_t size = lines.size();
+    for (const std::string& line : lines) {
+        len = std::max(len, line.length());
+        uint64_t col = 0;
+        std::istringstream breakLine(line);
+        uint64_t currVal = 0;
+        while (breakLine >> currVal) {
+            m_matrix[col].push_back(currVal);
+            ++col;
+        }
     }
 
-    std::cout.imbue(std::locale(""));
-    std::sort(raw_ranges.begin(), raw_ranges.end());
-    m_ranges.push_back(raw_ranges.front());
-    for (const Range& range : raw_ranges) {
-        const Range& lastRange = m_ranges.back();
-        std::cout << "range:     " << range.m_start << "-" << range.m_end << '\n';
-        std::cout << "lastRange: " << lastRange.m_start << "-" << lastRange.m_end << '\n';
-        if (lastRange.m_end + 1 >= range.m_start) {
-            // uint64_t newStart = std::min(range.m_start, lastRange.m_start);
-            uint64_t newEnd = std::max(range.m_end, lastRange.m_end);
-            //m_ranges.pop_back();
-            //m_ranges.emplace_back(newStart, newEnd);
-            m_ranges.back().m_end = newEnd;
+    for (std::string& line :lines) {
+        line.resize(len, ' ');
+    }
+
+    uint64_t col = 0;
+    for (uint64_t i = len; i-- > 0; ) {
+        std::string numStr;
+
+        for (uint64_t row = 0; row < size; ++row) {
+            char curr = lines[row][i];
+            if(curr != ' ') {
+                numStr += curr;
+            }
+        }
+
+        if (numStr.empty()) {
+            ++col;
         }
         else {
-            m_ranges.push_back(range);
+            m_cephMatrix[col].push_back(std::stoll(numStr));
         }
     }
-    std::cout.imbue(std::locale("C"));
+    std::reverse(m_cephMatrix.begin(), m_cephMatrix.end());
+}
 
-    char* endPtr = nullptr;
-    for (const auto& lineId : lines) {
-        m_ids.emplace_back(std::strtol(lineId.c_str(), &endPtr, 10));
+void Day6Solver::createOperators(const std::string& operatorsLine) {
+    for (char c : operatorsLine) {
+        switch (c) {
+            case '+':
+                m_operators.push_back(std::make_shared<operators::AddOperator>());
+                break;
+            case '*':
+                m_operators.push_back(std::make_shared<operators::MultiOperator>());
+                break;
+            default:
+                // do nothing
+                break;
+        }
     }
 }
 
-void Day5Solver::part1() const {
-    uint64_t countFresh = 0;
-    for (const uint64_t id : m_ids) {
-        auto it = std::upper_bound(m_ranges.begin(), m_ranges.end(), id, [](uint64_t value, const Day5Solver::Range& r) {
-                return value < r.m_start;
-        });
-        const bool isInRange = it != m_ranges.begin() && std::prev(it)->isInRange(id);
-        countFresh += isInRange ? 1 : 0;
+void Day6Solver::restOperators() const {
+    for (auto operatorPtr : m_operators) {
+        operatorPtr->reset();
+    }
+}
+
+void Day6Solver::part1() const {
+    restOperators();
+    uint64_t totalSum = 0;
+    for (uint64_t i = 0; i < m_matrix.size(); ++i) {
+        auto operatorPtr = m_operators[i];
+        for (uint64_t val : m_matrix[i]) {
+            operatorPtr->insertVal(val);
+        }
+        totalSum += operatorPtr->getResult();
 #ifdef EXTRA_DEBUG
-        std::cout << "id: " << id << " isFresh: " << (isInRange ? "true" : "false") << std::endl;
+        std::cout << "i: " << i << " total: " << totalSum << std::endl;
 #endif
     }
 
-    std::cout << "Day5 Part1: " << countFresh << std::endl;
+    std::cout << "Day 6 part 1: " << totalSum << std::endl;
 }
 
-void Day5Solver::part2() const {
-    uint64_t countFresh = 0;
-    for (const Range& r : m_ranges) {
-        countFresh += r.count();
+void Day6Solver::part2() const {
+    restOperators();
+    uint64_t totalSum = 0;
+    for (uint64_t i = 0; i < m_cephMatrix.size(); ++i) {
+        auto operatorPtr = m_operators[i];
+        for (uint64_t val : m_cephMatrix[i]) {
+            operatorPtr->insertVal(val);
+        }
+        totalSum += operatorPtr->getResult();
 #ifdef EXTRA_DEBUG
-        std::cout << "range count: " << r.count() << " total: " << countFresh << std::endl;
+        std::cout << "i: " << i << " total: " << totalSum << std::endl;
 #endif
     }
 
-    std::cout << "Day5 Part2: " << countFresh << std::endl;
+    std::cout << "Day 6 part 2: " << totalSum << std::endl;
 }
+
 
 } // namespace Solver
 

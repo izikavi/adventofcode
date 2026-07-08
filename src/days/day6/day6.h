@@ -1,13 +1,17 @@
 //
-// Created by izik on 09/06/2026.
+// Created by izik on 30/06/2026.
 //
 
 #pragma once
 
 #include <vector>
+#include <cstdint>
 
 #include "ISolver.h"
-#include "IOperand.h"
+
+namespace operators {
+class IOperator;
+}
 
 namespace Solver {
 
@@ -21,11 +25,15 @@ public:
 
 private:
     void reorderData(std::vector<std::string> lines);
+    void createOperators(const std::string& operatorsLine);
+    void restOperators() const;
+
     void part1() const;
     void part2() const;
 
-    std::vector<std::vector<uint64_6> > m_problems;
-    std::vector<std::shared_ptr<IOperand> > m_operators;
+    std::vector<std::vector<uint64_t> > m_matrix;
+    std::vector<std::vector<uint64_t> > m_cephMatrix;
+    std::vector<std::shared_ptr<operators::IOperator> > m_operators;
 };
 
 }
